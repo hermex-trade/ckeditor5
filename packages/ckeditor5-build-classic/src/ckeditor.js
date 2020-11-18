@@ -29,6 +29,9 @@ import PasteFromOffice from '@ckeditor/ckeditor5-paste-from-office/src/pastefrom
 import Table from '@ckeditor/ckeditor5-table/src/table';
 import TableToolbar from '@ckeditor/ckeditor5-table/src/tabletoolbar';
 import TextTransformation from '@ckeditor/ckeditor5-typing/src/texttransformation';
+import Alignment from '@ckeditor/ckeditor5-alignment/src/alignment'; 
+import ImageInsert from '@ckeditor/ckeditor5-image/src/imageinsert'; 
+import ImageResize from '@ckeditor/ckeditor5-image/src/imageresize'; 
 
 export default class ClassicEditor extends ClassicEditorBase {}
 
@@ -47,7 +50,8 @@ ClassicEditor.builtinPlugins = [
 	ImageCaption,
 	ImageStyle,
 	ImageToolbar,
-	ImageUpload,
+	ImageInsert,
+	ImageResize,
 	Indent,
 	Link,
 	List,
@@ -56,7 +60,8 @@ ClassicEditor.builtinPlugins = [
 	PasteFromOffice,
 	Table,
 	TableToolbar,
-	TextTransformation
+	TextTransformation,
+	Alignment                                                            // <--- ADDED
 ];
 
 // Editor configuration.
@@ -65,6 +70,7 @@ ClassicEditor.defaultConfig = {
 		items: [
 			'heading',
 			'|',
+			'alignment',                                                 // <--- ADDED
 			'bold',
 			'italic',
 			'link',
@@ -74,7 +80,7 @@ ClassicEditor.defaultConfig = {
 			'indent',
 			'outdent',
 			'|',
-			'imageUpload',
+			'imageInsert',
 			'blockQuote',
 			'insertTable',
 			'mediaEmbed',
@@ -82,10 +88,50 @@ ClassicEditor.defaultConfig = {
 			'redo'
 		]
 	},
+	removePlugins: ['ImageUpload'],
+	heading: {
+		options: [
+			{ model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+			{ model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+			{ model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+			{ model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+			{ model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+			{ model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+			{ model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+		]
+	},
 	image: {
+		styles: [
+			'alignLeft', 'alignCenter', 'alignRight', 'full', 'side' 
+		],
+		resizeOptions: [
+			{
+				name: 'imageResize:original',
+				label: 'Original',
+				value: null
+			},
+			{
+				name: 'imageResize:25',
+				label: '25%',
+				value: '25'
+			},
+			{
+				name: 'imageResize:50',
+				label: '50%',
+				value: '50'
+			},
+			{
+				name: 'imageResize:75',
+				label: '75%',
+				value: '75'
+			}
+		],
 		toolbar: [
+			'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight',
 			'imageStyle:full',
 			'imageStyle:side',
+			'|',
+			'imageResize',
 			'|',
 			'imageTextAlternative'
 		]
@@ -98,5 +144,5 @@ ClassicEditor.defaultConfig = {
 		]
 	},
 	// This value must be kept in sync with the language defined in webpack.config.js.
-	language: 'en'
+	language: 'de'
 };
